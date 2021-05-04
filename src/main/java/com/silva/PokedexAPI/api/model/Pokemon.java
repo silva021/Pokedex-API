@@ -1,11 +1,21 @@
-package com.silva.PokedexAPI.model;
+package com.silva.PokedexAPI.api.model;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 public class Pokemon {
+
+    @Id
+    @Column(name = "codigo")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int codigo;
-    String id, name, urlImage;
+
+    @Column(name = "id")
+    String id;
+    @Column(name = "name")
+    String name;
+    @Column(name = "url_image")
+    String urlImage;
 
     public int getCodigo() {
         return codigo;
@@ -36,6 +46,16 @@ public class Pokemon {
     }
 
     public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
+    }
+
+    public Pokemon() {
+    }
+
+    public Pokemon(int codigo, String id, String name, String urlImage) {
+        this.codigo = codigo;
+        this.id = id;
+        this.name = name;
         this.urlImage = urlImage;
     }
 }
