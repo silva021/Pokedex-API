@@ -1,4 +1,4 @@
-package com.silva.PokedexAPI.api.model;
+package com.silva.PokedexAPI.api.model.pokemon;
 
 import javax.persistence.*;
 
@@ -8,14 +8,14 @@ public class Pokemon {
     @Id
     @Column(name = "codigo")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int codigo;
+    private int codigo;
 
     @Column(name = "id")
-    String id;
+    private String id;
     @Column(name = "name")
-    String name;
+    private String name;
     @Column(name = "url_image")
-    String urlImage;
+    private String urlImage;
 
     public int getCodigo() {
         return codigo;
@@ -53,9 +53,9 @@ public class Pokemon {
     }
 
     public Pokemon(int codigo, String id, String name, String urlImage) {
-        this.codigo = codigo;
-        this.id = id;
-        this.name = name;
-        this.urlImage = urlImage;
+        this.codigo     = codigo;
+        this.id         = id;
+        this.name       = name;
+        this.urlImage   = urlImage;
     }
 }
