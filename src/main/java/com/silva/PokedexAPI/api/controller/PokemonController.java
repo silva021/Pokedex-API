@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.naming.Name;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 // Anotação que indica que essa classe faz parte do web service
 @RestController
@@ -29,7 +31,7 @@ public class PokemonController {
     public ResponseEntity findPokemonById(@PathVariable(name = "id") String id) {
         ResponseEntity<Object> response;
         Optional<Pokemon> pokemon = repository.getPokemonById(id);
-        response = pokemon.<ResponseEntity<Object>>map(object -> ResponseEntity.ok(new PokemonDTO(object))).orElseGet(() -> ResponseEntity.notFound().build());
+        response = pokemon.<ResponseEntity<Object>>map(object -> ResponseEntity.ok(object)).orElseGet(() -> ResponseEntity.notFound().build());
         return response;
     }
 
@@ -43,10 +45,15 @@ public class PokemonController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<List<Pokemon>> getAllPokemon() {
-        ResponseEntity<List<Pokemon>> responseEntity;
+    public ResponseEntity<List<PokemonDTO>> getAllPokemon() {
+        ResponseEntity<List<PokemonDTO>> responseEntity;
         Optional<List<Pokemon>> optionalPokemons = repository.getAllPokemon();
-        responseEntity = optionalPokemons.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+        responseEntity = optionalPokemons.map(value -> new ResponseEntity<>(value.stream().map(PokemonDTO::new).collect(Collectors.toList()), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
         return responseEntity;
+    }
+
+    @RequestMapping(value = "/generation/{generation}", method = RequestMethod.GET)
+    public ResponseEntity<List<PokemonDTO>> getAllPokemonByGeneration(@PathVariable(name = "generation") int generation) {
+        return repository.getAllPokemonByGeneration(generation).map(pokemons -> new ResponseEntity<>(pokemons.stream().map(PokemonDTO::new).collect(Collectors.toList()), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 }

@@ -19,6 +19,9 @@ public interface PokemonRepository extends JpaRepository<Pokemon, Integer> {
     @Query(value = "select * from t_Pokemon where name like %:name%", nativeQuery = true)
     Optional<List<Pokemon>> getPokemonByName(@Param(value = "name") String nome);
 
-    @Query(value = "select * from t_Pokemon where id like %:id%", nativeQuery = true)
+    @Query(value = "select *  from t_Pokemon p inner join t_Abilities a on p.id = a.id_pokemon where p.id = :id", nativeQuery = true)
     Optional<Pokemon> getPokemonById(@Param(value = "id") String id);
+
+    @Query(value = "select *  from t_Pokemon p inner join t_Abilities a on p.id = a.id_pokemon where generation = :generation", nativeQuery = true)
+    Optional<List<Pokemon>> getAllPokemonByGeneration(@Param(value = "generation") int generation);
 }
