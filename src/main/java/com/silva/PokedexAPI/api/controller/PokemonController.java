@@ -5,12 +5,10 @@ import com.silva.PokedexAPI.api.model.pokemon.PokemonDTO;
 import com.silva.PokedexAPI.api.repository.PokemonRepository;
 import com.silva.PokedexAPI.api.service.PokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,17 +32,17 @@ public class PokemonController {
 
     //Anotação que definir que neste diretorio ele irá fazer GET
     @RequestMapping(value = "/name/{name}", method = RequestMethod.GET)
-    public ResponseEntity<List<PokemonDTO>> findPokemonByName(@PathVariable(name = "name") String name) {
-        return service.findPokemonByName(name).map(pokemonDTOS -> new ResponseEntity<>(pokemonDTOS, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+    public ResponseEntity<List<PokemonDTO>> findPokemonByName(@PathVariable(name = "name") String name, @RequestParam(value = "page", defaultValue = "1") int page) {
+        return service.findPokemonByName(name, page).map(pokemonDTOS -> new ResponseEntity<>(pokemonDTOS, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<List<PokemonDTO>> getAllPokemon() {
-        return service.getAllPokemon().map(pokemons -> new ResponseEntity<>(pokemons, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+    public ResponseEntity<List<PokemonDTO>> getAllPokemon(@RequestParam(value = "page", defaultValue = "1") int page) {
+        return service.getAllPokemon(page).map(pokemons -> new ResponseEntity<>(pokemons, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @RequestMapping(value = "/generation/{generation}", method = RequestMethod.GET)
-    public ResponseEntity<List<PokemonDTO>> getAllPokemonByGeneration(@PathVariable(name = "generation") int generation) {
-        return service.getAllPokemonByGeneration(generation).map(pokemons -> new ResponseEntity<>(pokemons, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+    public ResponseEntity<List<PokemonDTO>> getAllPokemonByGeneration(@PathVariable(name = "generation") int generation, @RequestParam(value = "page", defaultValue = "1") int page) {
+        return service.getAllPokemonByGeneration(generation, page).map(pokemons -> new ResponseEntity<>(pokemons, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 }
