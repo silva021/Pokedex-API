@@ -13,10 +13,10 @@ import java.util.Optional;
 //Anotação que declara que essa classe é responsavel pela persistencia que de dados que irá fazer a comunicação com o banco de dados
 public interface PokemonRepository extends JpaRepository<Pokemon, Integer> {
 
-    @Query(value = "select * from t_Pokemon", nativeQuery = true)
+    @Query(value = "select *  from t_Pokemon p inner join t_Abilities a on p.id = a.id_pokemon", nativeQuery = true)
     Optional<List<Pokemon>> getAllPokemon();
 
-    @Query(value = "select * from t_Pokemon where name like %:name%", nativeQuery = true)
+    @Query(value = "select *  from t_Pokemon p inner join t_Abilities a on p.id = a.id_pokemon where name like %:name%", nativeQuery = true)
     Optional<List<Pokemon>> getPokemonByName(@Param(value = "name") String nome);
 
     @Query(value = "select *  from t_Pokemon p inner join t_Abilities a on p.id = a.id_pokemon where p.id = :id", nativeQuery = true)
