@@ -45,4 +45,9 @@ public class PokemonController {
     public ResponseEntity<List<PokemonDTO>> getAllPokemonByGeneration(@PathVariable(name = "generation") int generation, @RequestParam(value = "page", defaultValue = "1") int page) {
         return service.getAllPokemonByGeneration(generation, page).map(pokemons -> new ResponseEntity<>(pokemons, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
+
+    @RequestMapping(value = "/type/{type}", method = RequestMethod.GET)
+    public ResponseEntity<List<PokemonDTO>> findPokemonByType(@PathVariable(name = "type") String type, @RequestParam(value = "page", defaultValue = "1") int page) {
+        return service.findPokemonByType(type, page).map(pokemons -> new ResponseEntity<>(pokemons, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+    }
 }

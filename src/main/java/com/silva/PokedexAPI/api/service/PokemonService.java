@@ -38,4 +38,9 @@ public class PokemonService {
     public Optional<List<PokemonDTO>> getAllPokemonByGeneration(int generation, int page) {
         return repository.getAllPokemonByGeneration(generation, page).map(pokemons -> pokemons.stream().map(PokemonDTO::new).collect(Collectors.toList()));
     }
+
+    public Optional<List<PokemonDTO>> findPokemonByType(String type, int page) {
+        return repository.findPokemonByType(type, page).map(pokemons -> pokemons.stream().map(PokemonDTO::new).collect(Collectors.toList()));
+    }
+
 }

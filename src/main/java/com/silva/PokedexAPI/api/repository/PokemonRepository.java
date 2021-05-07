@@ -25,4 +25,7 @@ public interface PokemonRepository extends JpaRepository<Pokemon, Integer> {
 
     @Query(value = "select *  from t_Pokemon p inner join t_Abilities a on p.id = a.id_pokemon where generation = :generation ORDER BY id OFFSET ((:page - 1) * 10) ROWS FETCH NEXT 10 ROWS ONLY", nativeQuery = true)
     Optional<List<Pokemon>> getAllPokemonByGeneration(@Param(value = "generation") int generation, @Param(value = "page") int page);
+
+    @Query(value = "select *  from t_Pokemon p inner join t_Abilities a on p.id = a.id_pokemon where (type1 = :type) or (type2 = :type) order by id  offset ((:page - 1) * 10) rows fetch next 10 rows only", nativeQuery = true)
+    Optional<List<Pokemon>> findPokemonByType(@Param(value = "type") String type, @Param(value = "page") int page);
 }
