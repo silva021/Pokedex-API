@@ -1,6 +1,5 @@
 package com.silva.PokedexAPI.api.model.pokemon;
 
-import javax.persistence.*;
 
 public class PokemonDTO {
 

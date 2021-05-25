@@ -17,8 +17,9 @@ class PokedexApiApplicationTests {
 
 
 	@Test
-	public void findPokemonById() {
+	public void findPokemonById_isCorrect() {
 		pokemonService.findPokemonById("1421412");
+
 	}
 
 	@Test
